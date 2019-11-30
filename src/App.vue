@@ -1,29 +1,23 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    Hey this is my plugin
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "./components/HelloWorld.vue";
+const DatoCmsPlugin = require("datocms-plugins-sdk");
 
 @Component({
-  components: {
-    HelloWorld
-  }
+  components: {}
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  mounted() {
+    DatoCmsPlugin.init((plugin: any) => {
+      console.log(plugin);
+    });
+  }
+}
 </script>
 
-<style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style lang="scss"></style>

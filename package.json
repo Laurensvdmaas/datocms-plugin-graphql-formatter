@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.4.3",
+    "datocms-plugins-sdk": "0.0.8",
+    "tailwindcss": "^1.1.4",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.3.0"
@@ -24,6 +26,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^5.0.0",
     "lint-staged": "^9.4.3",
+    "postcss-purgecss": "^1.0.0",
     "prettier": "^1.19.1",
     "sass": "^1.23.7",
     "sass-loader": "^8.0.0",
@@ -32,6 +35,18 @@
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
+  },
+  "postcss": {
+    "plugins": {
+      "tailwindcss": {},
+      "autoprefixer": {},
+      "postcss-purgecss": {
+        "content": [
+          "./src/**/*.html",
+          "./src/**/*.vue"
+        ]
+      }
+    }
   },
   "lint-staged": {
     "*.{js,vue,ts}": [
