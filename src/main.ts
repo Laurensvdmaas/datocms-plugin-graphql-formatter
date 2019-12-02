@@ -1,5 +1,6 @@
-import "@/assets/tailwind.scss";
+import "./assets/tailwind.scss";
 import Vue from "vue";
+import "./plugins/plugins";
 import App from "./App.vue";
 
 Vue.config.productionTip = false;

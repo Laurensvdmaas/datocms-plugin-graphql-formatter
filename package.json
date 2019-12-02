@@ -36,18 +36,6 @@
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
-  "postcss": {
-    "plugins": {
-      "tailwindcss": {},
-      "autoprefixer": {},
-      "postcss-purgecss": {
-        "content": [
-          "./src/**/*.html",
-          "./src/**/*.vue"
-        ]
-      }
-    }
-  },
   "lint-staged": {
     "*.{js,vue,ts}": [
       "vue-cli-service lint",
