@@ -8,7 +8,7 @@
       @keyup="onChange()"
     ></textarea>
     <div
-      class="btn rounded mt-4 pointer bg-white text-white px-8 py-2"
+      class="btn rounded mt-4 pointer bg-white cursor-pointer text-white px-8 py-2"
       @click="beautify()"
     >
       Beautify
@@ -54,7 +54,8 @@ export default class App extends Mixins(Base) {
   prettier(value) {
     return prettier.format(value, {
       parser: "graphql",
-      plugins: [parserGraphql]
+      plugins: [parserGraphql],
+      tabWidth: 4
     });
   }
 
@@ -87,11 +88,11 @@ export default class App extends Mixins(Base) {
 .editor {
   font-family: colfax-web, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
 
-  /*--primary-color: rgb(27, 33, 39);*/
-  /*--accent-color: rgb(52, 133, 247);*/
-  /*--semi-transparent-accent-color: rgb(52, 133, 247, 0.1);*/
-  /*--light-color: rgb(236, 238, 243);*/
-  /*--dark-color: rgb(21, 25, 31);*/
+  --primary-color: rgb(27, 33, 39);
+  --accent-color: rgb(52, 133, 247);
+  --semi-transparent-accent-color: rgb(52, 133, 247, 0.1);
+  --light-color: rgb(236, 238, 243);
+  --dark-color: rgb(21, 25, 31);
 
   .btn {
     background: var(--accent-color);
