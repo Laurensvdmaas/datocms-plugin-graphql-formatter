@@ -85,11 +85,12 @@ export default class App extends Mixins(Base) {
 <style lang="scss">
 .editor {
   font-family: colfax-web, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
-  --primary-color: rgb(27, 33, 39);
-  --accent-color: rgb(52, 133, 247);
-  --semi-transparent-accent-color: rgb(52, 133, 247, 0.1);
-  --light-color: rgb(236, 238, 243);
-  --dark-color: rgb(21, 25, 31);
+  */
+  /*--primary-color: rgb(27, 33, 39);*/
+  /*--accent-color: rgb(52, 133, 247);*/
+  /*--semi-transparent-accent-color: rgb(52, 133, 247, 0.1);*/
+  /*--light-color: rgb(236, 238, 243);*/
+  /*--dark-color: rgb(21, 25, 31);*/
 
   .btn {
     background: var(--accent-color);
@@ -99,7 +100,6 @@ export default class App extends Mixins(Base) {
     min-height: 200px;
     color: var(--primary-color);
     border: 1px solid var(--semi-transparent-accent-color);
-    background: var(--light-color);
     resize: none;
   }
 }
