@@ -1,12 +1,14 @@
 <template>
   <div class="editor flex items-start  flex-col rounded text-white">
     <textarea
-      class="outline-none bg-gray-900 text-white w-full text-black p-4 min-h-40"
+      class="outline-none rounded w-full text-black p-4"
       v-model="value"
+      ref="input"
       placeholder="Enter query"
+      @keyup="onChange()"
     ></textarea>
     <div
-      class="btn mt-4 pointer bg-white text-white bg-green-500 px-8 py-2"
+      class="btn rounded mt-4 pointer bg-white text-white px-8 py-2"
       @click="beautify()"
     >
       Beautify
@@ -44,6 +46,10 @@ export default class App extends Mixins(Base) {
     });
   }
 
+  onChange() {
+    this.autosize();
+  }
+
   prettier(value) {
     return prettier.format(value, {
       parser: "graphql",
@@ -51,10 +57,15 @@ export default class App extends Mixins(Base) {
     });
   }
 
-  @Watch("value") onValueChange() {
+  valueToPlugin() {
     if (!this.plugin) return;
 
     this.plugin.setFieldValue(this.plugin.fieldPath, this.value);
+  }
+
+  autosize() {
+    this.input.style.height = "auto";
+    this.input.style.height = `${this.input.scrollHeight}px`;
   }
 
   beautify() {
@@ -62,6 +73,8 @@ export default class App extends Mixins(Base) {
 
     try {
       this.value = this.prettier(this.value);
+
+      this.valueToPlugin();
     } catch (e) {
       this.error = e;
     }
@@ -71,8 +84,22 @@ export default class App extends Mixins(Base) {
 
 <style lang="scss">
 .editor {
+  font-family: colfax-web, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+  --primary-color: rgb(27, 33, 39);
+  --accent-color: rgb(52, 133, 247);
+  --semi-transparent-accent-color: rgb(52, 133, 247, 0.1);
+  --light-color: rgb(236, 238, 243);
+  --dark-color: rgb(21, 25, 31);
+
+  .btn {
+    background: var(--accent-color);
+  }
+
   textarea {
-    min-height: 460px;
+    min-height: 200px;
+    color: var(--primary-color);
+    border: 1px solid var(--semi-transparent-accent-color);
+    background: var(--light-color);
     resize: none;
   }
 }
