@@ -33,12 +33,14 @@ export default class App extends Mixins(Base) {
   input: any = null;
   error = null;
   @Ref("code") code;
+  plugin = null;
 
   mounted() {
     this.input = this.$refs.input;
 
     DatoCmsPlugin.init((plugin: any) => {
-      console.log(plugin);
+      this.plugin = plugin;
+      plugin.startAutoResizer();
     });
   }
 
@@ -47,6 +49,12 @@ export default class App extends Mixins(Base) {
       parser: "graphql",
       plugins: [parserGraphql]
     });
+  }
+
+  @Watch("value") onValueChange() {
+    if (!this.plugin) return;
+
+    this.plugin.setFieldValue(this.plugin.fieldPath, this.value);
   }
 
   beautify() {
