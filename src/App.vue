@@ -42,6 +42,7 @@ export default class App extends Mixins(Base) {
 
     DatoCmsPlugin.init((plugin: any) => {
       this.plugin = plugin;
+      this.value = plugin.getFieldValue(plugin.fieldPath);
       plugin.startAutoResizer();
     });
   }
@@ -85,7 +86,7 @@ export default class App extends Mixins(Base) {
 <style lang="scss">
 .editor {
   font-family: colfax-web, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
-  */
+
   /*--primary-color: rgb(27, 33, 39);*/
   /*--accent-color: rgb(52, 133, 247);*/
   /*--semi-transparent-accent-color: rgb(52, 133, 247, 0.1);*/
