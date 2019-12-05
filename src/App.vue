@@ -1,38 +1,27 @@
 <template>
-  <div class="editor rounded m-4 p-4 bg-gray-900 text-white">
-    <div class="flex">
-      <ul class="flex flex-col">
-        <li class="flex items-center" v-for="(line, key) in lines" :key="key">
-          <div class="line-number w-4 border-r w-8 text-center border-gray-800">
-            {{ key + 1 }}
-          </div>
-        </li>
-      </ul>
-      <ul
-        class="flex flex-col whitespace-pre-wrap outline-none flex-1"
-        ref="code"
-      >
-        <li class="flex items-center" v-for="(line, key) in lines" :key="key">
-          <pre
-            class="ml-2"
-            :class="{ 'mr-2': line.length }"
-            v-html="line"
-          ></pre>
-        </li>
-      </ul>
-    </div>
-    <div class="tailwind text-black hidden w-2"></div>
+  <div class="editor flex items-start  flex-col rounded text-white">
     <textarea
-      class="w-full mt-4 text-black p-4 h-40"
+      class="outline-none bg-gray-900 text-white w-full text-black p-4 min-h-40"
       v-model="value"
+      placeholder="Enter query"
     ></textarea>
+    <div
+      class="btn mt-4 pointer bg-white text-white bg-green-500 px-8 py-2"
+      @click="beautify()"
+    >
+      Beautify
+    </div>
+    <div class="error text-red-500 mt-4">
+      {{ error }}
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins, Ref, Watch } from "vue-property-decorator";
 import Base from "@/mixins/base";
-import { Listen } from "@/utilities/decorators";
+import prettier from "prettier/standalone";
+import parserGraphql from "prettier/parser-graphql";
 
 const DatoCmsPlugin = require("datocms-plugins-sdk");
 
@@ -40,105 +29,43 @@ const DatoCmsPlugin = require("datocms-plugins-sdk");
   components: {}
 })
 export default class App extends Mixins(Base) {
-  value: any = `type Route {
-  alternatives: RouteAlternative
-  ev: RequestEv
-  route: RouteAlternative
-  routeRequest: RequestRoute
-  semantic: Semantic
-  status: RouteStatus
-  user: RequestUser
-}`;
-  activeLine: any = null;
+  value: any = ``;
   input: any = null;
-  selectionStart = 0;
-  @Ref("shadowEditor") shadowEditor;
+  error = null;
   @Ref("code") code;
 
   mounted() {
     this.input = this.$refs.input;
 
-    // DatoCmsPlugin.init((plugin: any) => {
-    //   console.log(plugin);
-    // });
+    DatoCmsPlugin.init((plugin: any) => {
+      console.log(plugin);
+    });
   }
 
-  onInput(e) {
-    // this.value = this.code.innerText;
+  prettier(value) {
+    return prettier.format(value, {
+      parser: "graphql",
+      plugins: [parserGraphql]
+    });
   }
 
-  onKeyDown(e) {
-    if (e.keyCode == 9) {
-      e.preventDefault();
-      console.log("Inserted");
+  beautify() {
+    this.error = null;
 
-      document.execCommand("insertHTML", false, "&#009");
+    try {
+      this.value = this.prettier(this.value);
+    } catch (e) {
+      this.error = e;
     }
-  }
-
-  get lines() {
-    return this.value.split("\n");
-  }
-
-  addLine() {
-    this.lines.splice(this.activeLine + 1, 0, "");
-    this.setActiveLine(this.activeLine + 1);
-    this.value = "";
-  }
-
-  onLineClick(key) {
-    this.setActiveLine(key);
-    this.value = this.lines[key];
-  }
-
-  @Watch("value") onValueChange() {
-    if (this.lines[this.activeLine] !== undefined) {
-      this.lines[this.activeLine] = this.value;
-    }
-  }
-
-  onBlur($event) {
-    this.setActiveLine(null);
-    this.value = null;
-  }
-
-  onDelete() {
-    console.log(this.activeLine);
-
-    console.log(!this.activeLine && this.value.length === 0);
-
-    if (this.activeLine && this.value.length === 0) {
-      this.lines.splice(this.activeLine, 1);
-    }
-  }
-
-  onFocus() {}
-
-  focus() {
-    this.input.focus();
-  }
-
-  setActiveLine(value: any) {
-    this.activeLine = value;
   }
 }
 </script>
 
 <style lang="scss">
 .editor {
-  @keyframes blink {
-    0% {
-      opacity: 0;
-    }
-    30% {
-      opacity: 1;
-    }
-    60% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 0;
-    }
+  textarea {
+    min-height: 460px;
+    resize: none;
   }
 }
 </style>
