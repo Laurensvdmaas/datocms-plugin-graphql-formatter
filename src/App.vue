@@ -55,7 +55,8 @@ export default class App extends Mixins(Base) {
     return prettier.format(value, {
       parser: "graphql",
       plugins: [parserGraphql],
-      tabWidth: 4
+      tabWidth: 2,
+      printWidth: 60
     });
   }
 
