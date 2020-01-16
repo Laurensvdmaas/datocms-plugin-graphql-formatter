@@ -42,7 +42,13 @@ export default class App extends Mixins(Base) {
 
     DatoCmsPlugin.init((plugin: any) => {
       this.plugin = plugin;
-      this.value = this.prettier(plugin.getFieldValue(plugin.fieldPath));
+
+      const value = plugin.getFieldValue(plugin.fieldPath);
+
+      if(value) {
+        this.value = this.prettier(plugin.getFieldValue(plugin.fieldPath));
+      }
+
       plugin.startAutoResizer();
     });
   }
